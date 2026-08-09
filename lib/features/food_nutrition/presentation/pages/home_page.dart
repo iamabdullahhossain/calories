@@ -3,31 +3,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../controllers/nutrition_provider.dart';
-import '../widgets/api_key_card.dart';
 import '../widgets/food_image_picker_card.dart';
 import '../widgets/insights_card.dart';
 import '../widgets/nutrition_table_card.dart';
 
-class HomePage extends ConsumerStatefulWidget {
+class HomePage extends ConsumerWidget {
   const HomePage({super.key});
 
   @override
-  ConsumerState<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends ConsumerState<HomePage> {
-  final TextEditingController _apiKeyController = TextEditingController(
-    text: '',
-  );
-
-  @override
-  void dispose() {
-    _apiKeyController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(nutritionNotifierProvider);
     final notifier = ref.read(nutritionNotifierProvider.notifier);
 
@@ -47,10 +31,6 @@ class _HomePageState extends ConsumerState<HomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // API Key Input Card
-            ApiKeyCard(controller: _apiKeyController),
-            const SizedBox(height: 20),
-
             // Image Display Container
             FoodImagePickerCard(imageFile: state.imageFile),
             const SizedBox(height: 20),
@@ -61,7 +41,6 @@ class _HomePageState extends ConsumerState<HomePage> {
                   ? null
                   : () => notifier.analyzeImage(
                         source: ImageSource.camera,
-                        apiKey: _apiKeyController.text,
                       ),
               icon: const Icon(Icons.camera_alt, color: Colors.white),
               label: const Text(
@@ -89,7 +68,6 @@ class _HomePageState extends ConsumerState<HomePage> {
                   ? null
                   : () => notifier.analyzeImage(
                         source: ImageSource.gallery,
-                        apiKey: _apiKeyController.text,
                       ),
               icon: const Icon(Icons.photo_library, color: Color(0xFF10B981)),
               label: const Text(

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -32,11 +33,12 @@ class NutritionNotifier extends StateNotifier<NutritionState> {
 
   Future<void> analyzeImage({
     required ImageSource source,
-    required String apiKey,
   }) async {
+    final apiKey = dotenv.env['GEMINI_API_KEY'] ?? '';
+
     if (apiKey.trim().isEmpty) {
       state = state.copyWith(
-        errorMessage: 'Please enter your Gemini API key first!',
+        errorMessage: 'Gemini API key not found in .env file!',
       );
       return;
     }
