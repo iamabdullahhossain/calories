@@ -17,7 +17,7 @@ class HomePage extends ConsumerStatefulWidget {
 
 class _HomePageState extends ConsumerState<HomePage> {
   final TextEditingController _apiKeyController = TextEditingController(
-    text: 'AQ.Ab8RN6IIjhx8418q4gyd3Syev0zc6aKPbqU-OnFJc4qvGzuZtQ',
+    text: '',
   );
 
   @override
